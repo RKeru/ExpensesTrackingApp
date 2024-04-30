@@ -36,7 +36,7 @@ interface TransactionDao {
     fun getAllTransactionsFromCategoryAndSource(
         categoryId: Int,
         sourceId: Int
-    )
+    ): Flow<List<Transaction>>
 
     @Query("select * from `transaction`")
     fun getAllTransactions(): Flow<List<Transaction>>
@@ -62,7 +62,7 @@ interface TransactionDao {
         sourceId: Int,
         startDate: Date,
         endDate: Date
-    )
+    ): Flow<List<Transaction>>
 
     @Query("select * from `transaction` " +
             "where categoryId = :categoryId and sourceId = :sourceId " +
@@ -72,6 +72,6 @@ interface TransactionDao {
         sourceId: Int,
         startDate: Date,
         endDate: Date
-    )
+    ): Flow<List<Transaction>>
 
 }
