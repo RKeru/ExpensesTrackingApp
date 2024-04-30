@@ -38,7 +38,7 @@ interface SummaryDao {
         currentMonth: Int,
         currentYear: Int,
         categoryId: Int
-    )
+    ): Flow<List<ExpensesSummary>>
 
     @Query("select * from summary " +
             "where month = :currentMonth and year = :currentYear " +
@@ -47,7 +47,7 @@ interface SummaryDao {
         currentMonth: Int,
         currentYear: Int,
         sourceId: Int
-    )
+    ): Flow<List<ExpensesSummary>>
 
     @Query("select * from summary " +
             "where month = :currentMonth and year = :currentYear " +
@@ -57,7 +57,7 @@ interface SummaryDao {
         currentYear: Int,
         categoryId: Int,
         sourceId: Int
-    )
+    ): Flow<List<ExpensesSummary>>
 
     @Query("SELECT * FROM summary " +
             "WHERE (year = :startYear AND month >= :startMonth) " +
