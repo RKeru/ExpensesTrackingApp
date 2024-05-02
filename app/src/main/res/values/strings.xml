@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ExpensesApp</string>
+    <string name="transaction_qty">€ %.2f</string>
 </resources>
