@@ -35,8 +35,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.rkeru.expensesapp.ExpensesBottomNavigation
 import com.rkeru.expensesapp.R
-import com.rkeru.expensesapp.data.model.Transaction
 import com.rkeru.expensesapp.data.model.TransactionDetails
 import com.rkeru.expensesapp.ui.AppViewModelProvider
 import com.rkeru.expensesapp.ui.theme.ExpensesAppTheme
@@ -48,6 +48,9 @@ import java.util.Date
 fun HomeScreen(
     navigateToEntry: () -> Unit,
     navigateToDetails: (Int) -> Unit,
+    navigateToSettings: () -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToDashboard: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -56,6 +59,13 @@ fun HomeScreen(
 
     Scaffold (
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        bottomBar = {
+            ExpensesBottomNavigation(
+                navigateToSettings = navigateToSettings,
+                navigateToHome = navigateToHome,
+                navigateToDashboard = navigateToDashboard
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = navigateToEntry,

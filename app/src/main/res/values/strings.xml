@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">ExpensesApp</string>
+    <!-- Icon Descriptions -->
+    <string name="settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="add_transaction">Add Transaction</string>
+    <!-- Screens Strings -->
     <string name="money_qty">€ %.2f</string>
     <string name="budget_txt">Budget</string>
     <string name="income_txt">Income</string>
     <string name="expense_txt">Expense</string>
-    <string name="add_transaction">Add Transaction</string>
+
 </resources>

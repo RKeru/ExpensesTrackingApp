@@ -26,7 +26,10 @@ fun ExpensesNavHost(
         composable(route = HomeDestination.route) {
             HomeScreen(
                 navigateToEntry = { /*TODO*/ },
-                navigateToDetails = { /*TODO*/ }
+                navigateToDetails = { /*TODO*/ },
+                navigateToSettings = { /*TODO*/ },
+                navigateToHome = { /*TODO*/ },
+                navigateToDashboard = { /*TODO*/ }
             )
         }
     }

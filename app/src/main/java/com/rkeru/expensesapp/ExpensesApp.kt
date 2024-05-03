@@ -1,15 +1,39 @@
 package com.rkeru.expensesapp
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationDefaults
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.rkeru.expensesapp.ui.navigation.ExpensesNavHost
@@ -42,7 +66,7 @@ fun ExpensesTopAppBar(
             if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
                     Icon(
-                       imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "back"  // TODO add to string res
                     )
                 }
@@ -55,6 +79,64 @@ fun ExpensesTopAppBar(
  * App Bottom Navigation Bar
  */
 @Composable
-fun ExpensesBottomAppBar() {
-    // TODO Implement
+fun ExpensesBottomNavigation(
+    navigateToSettings: () -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToDashboard: () -> Unit,
+    modifier: Modifier = Modifier,
+    initialState: Int = 1,
+    inverseColor: Boolean = true
+) {
+    var selectedItem by remember { mutableStateOf(initialState) }
+    val labels = listOf(
+        stringResource(R.string.settings),
+        stringResource(R.string.home),
+        stringResource(R.string.dashboard)
+    )
+    val icons = listOf(
+        painterResource(R.drawable.settings_icon),
+        painterResource(R.drawable.home_icon),
+        painterResource(R.drawable.chart_icon)
+    )
+
+    BottomNavigation (windowInsets = BottomNavigationDefaults.windowInsets) {
+        icons.forEachIndexed { index, icon ->
+            val iconSize = 48.dp
+            BottomNavigationItem(
+                icon = {
+                    Icon (
+                        painter = icon,
+                        contentDescription = labels[index],
+                        tint = if (inverseColor) Color.White else Color.Black
+                    )
+                },
+                label = {
+                    Text (
+                        labels[index],
+                        style = MaterialTheme.typography.titleSmall,
+                        color = if (inverseColor) Color.White else Color.Black
+                    )
+                },
+                selected = selectedItem == index,
+                onClick = { selectedItem = index },
+                modifier = modifier
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(
+                        brush = if(selectedItem == index) {
+                            Brush.radialGradient(
+                                colors = listOf(
+                                    Color.White.copy(alpha=0.05f),
+                                    Color.White.copy(alpha=0.4f)
+                                ),
+                                center = Offset.Unspecified,
+                                radius = 150f
+                            )
+                        } else {
+                            SolidColor(Color.Transparent)
+                        }
+                    )
+                    .padding(top = 5.dp)
+            )
+        }
+    }
 }
