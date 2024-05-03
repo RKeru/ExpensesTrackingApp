@@ -1,6 +1,7 @@
 package com.rkeru.expensesapp.data.repository
 
 import com.rkeru.expensesapp.data.model.Transaction
+import com.rkeru.expensesapp.data.model.TransactionDetails
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
@@ -42,6 +43,20 @@ interface TransactionRepo {
         startDate: Date,
         endDate: Date
     ): Flow<List<Transaction>>
+
+    fun getAllIncomesBetweenDatesStream(
+        startDate: Date,
+        endDate: Date
+    ): Flow<Double>
+
+    fun getAllExpensesBetweenDatesStream(
+        startDate: Date,
+        endDate: Date
+    ): Flow<Double>
+
+    fun getAllDetailedExpensesStream(): Flow<List<TransactionDetails>>
+
+    fun getDetailedExpenseStream(id: Int): Flow<TransactionDetails>
 
     suspend fun insertTransaction(transaction: Transaction)
 

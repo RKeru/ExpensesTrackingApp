@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.rkeru.expensesapp.ui.home.HomeScreen
 
 
 object HomeDestination: NavigationDestination {
@@ -21,6 +23,11 @@ fun ExpensesNavHost(
         startDestination = HomeDestination.route,
         modifier = modifier
     ) {
-        // TODO Add Composable Screen
+        composable(route = HomeDestination.route) {
+            HomeScreen(
+                navigateToEntry = { /*TODO*/ },
+                navigateToDetails = { /*TODO*/ }
+            )
+        }
     }
 }

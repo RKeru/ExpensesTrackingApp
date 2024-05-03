@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">ExpensesApp</string>
-    <string name="transaction_qty">€ %.2f</string>
+    <string name="money_qty">€ %.2f</string>
+    <string name="budget_txt">Budget</string>
+    <string name="income_txt">Income</string>
+    <string name="expense_txt">Expense</string>
+    <string name="add_transaction">Add Transaction</string>
 </resources>

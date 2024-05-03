@@ -3,20 +3,21 @@ package com.rkeru.expensesapp.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rkeru.expensesapp.data.model.Transaction
+import com.rkeru.expensesapp.data.model.TransactionDetails
 import com.rkeru.expensesapp.data.repository.TransactionRepo
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class HomeViewModel (transactionRepository: TransactionRepo) : ViewModel() {
+class HomeViewModel (private val transactionRepository: TransactionRepo) : ViewModel() {
 
     companion object {
         private const val TIMEOUT_MILLS = 5_000L
     }
 
     val homeUiState: StateFlow<HomeUiState> =
-        transactionRepository.getAllTransactionsStream().map { HomeUiState(it) }
+        transactionRepository.getAllDetailedExpensesStream().map { HomeUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLS),
@@ -24,4 +25,4 @@ class HomeViewModel (transactionRepository: TransactionRepo) : ViewModel() {
             )
 }
 
-data class HomeUiState(val transactionList: List<Transaction> = listOf())
+data class HomeUiState(val transactionList: List<TransactionDetails> = listOf())

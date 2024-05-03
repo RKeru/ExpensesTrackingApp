@@ -2,6 +2,7 @@ package com.rkeru.expensesapp.data.repository
 
 import com.rkeru.expensesapp.data.dao.TransactionDao
 import com.rkeru.expensesapp.data.model.Transaction
+import com.rkeru.expensesapp.data.model.TransactionDetails
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
@@ -54,6 +55,22 @@ class OfflineTransactionRepo (private val transactionDao: TransactionDao) : Tran
         transactionDao.getAllTransactionsFromCategoryAndSourceBetweenDates(
             categoryId, sourceId, startDate, endDate
         )
+
+    override fun getAllIncomesBetweenDatesStream(
+        startDate: Date,
+        endDate: Date
+    ): Flow<Double> = transactionDao.getAllIncomeBetweenDates(startDate, endDate)
+
+    override fun getAllExpensesBetweenDatesStream(
+        startDate: Date,
+        endDate: Date
+    ): Flow<Double> = transactionDao.getAllExpensesBetweenDates(startDate, endDate)
+
+    override fun getAllDetailedExpensesStream(): Flow<List<TransactionDetails>> =
+        transactionDao.getAllTransactionsWithDetails()
+
+    override fun getDetailedExpenseStream(id: Int): Flow<TransactionDetails> =
+        transactionDao.getTransactionWithDetails(id)
 
     override suspend fun insertTransaction(transaction: Transaction) = transactionDao.insert(transaction)
 
