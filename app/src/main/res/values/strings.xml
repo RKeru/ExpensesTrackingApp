@@ -5,6 +5,19 @@
     <string name="home">Home</string>
     <string name="dashboard">Dashboard</string>
     <string name="add_transaction">Add Transaction</string>
+    <!-- Screens Names -->
+    <string name="home_screen">Home</string>
+    <string name="add_item">Add Item</string>
+    <!-- Transaction Entry (Add) Labels Strings -->
+    <string name="entry_screen_title">Title</string>
+    <string name="entry_screen_value">Amount</string>
+    <string name="entry_screen_type_expense">Expense</string>
+    <string name="entry_screen_type_income">Income</string>
+    <string name="entry_screen_category">Category</string>
+    <string name="entry_screen_source">Source</string>
+    <string name="entry_screen_note">Note</string>
+    <string name="entry_screen_cancel">Cancel</string>
+    <string name="entry_screen_add">Add</string>
     <!-- Screens Strings -->
     <string name="money_qty">€ %.2f</string>
     <string name="budget_txt">Budget</string>
