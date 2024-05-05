@@ -39,9 +39,15 @@ import com.rkeru.expensesapp.ExpensesBottomNavigation
 import com.rkeru.expensesapp.R
 import com.rkeru.expensesapp.data.model.TransactionDetails
 import com.rkeru.expensesapp.ui.AppViewModelProvider
+import com.rkeru.expensesapp.ui.navigation.NavigationDestination
 import com.rkeru.expensesapp.ui.theme.ExpensesAppTheme
 import java.text.SimpleDateFormat
 import java.util.Date
+
+object HomeDestination: NavigationDestination {
+    override val route: String = "Home"
+    override val titleRes: Int = R.string.home_screen
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

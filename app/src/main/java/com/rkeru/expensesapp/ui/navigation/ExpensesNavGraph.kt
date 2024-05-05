@@ -5,13 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.rkeru.expensesapp.ui.home.HomeDestination
 import com.rkeru.expensesapp.ui.home.HomeScreen
 
-
-object HomeDestination: NavigationDestination {
-    override val route: String = "Home"
-    override val titleRes: Int = 0  // TODO Replace
-}
 
 @Composable
 fun ExpensesNavHost(
@@ -28,7 +24,7 @@ fun ExpensesNavHost(
                 navigateToEntry = { /*TODO*/ },
                 navigateToDetails = { /*TODO*/ },
                 navigateToSettings = { /*TODO*/ },
-                navigateToHome = { /*TODO*/ },
+                navigateToHome = { navController.navigate(HomeDestination.route) },
                 navigateToDashboard = { /*TODO*/ }
             )
         }
