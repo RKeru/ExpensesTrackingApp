@@ -39,7 +39,7 @@ interface TransactionDao {
         sourceId: Int
     ): Flow<List<Transaction>>
 
-    @Query("select * from `transaction`")
+    @Query("select * from `transaction` order by date asc")
     fun getAllTransactions(): Flow<List<Transaction>>
 
     @Query("select * from `transaction` " +
@@ -105,7 +105,8 @@ interface TransactionDao {
             "`transaction`.date as date" +
             " from `transaction`, category, source " +
             "where category.id = `transaction`.categoryId and " +
-            "source.id = `transaction`.sourceId")
+            "source.id = `transaction`.sourceId " +
+            "order by date desc")
     fun getAllTransactionsWithDetails(): Flow<List<TransactionDetails>>
 
     @Query("select `transaction`.id as transactionId, " +
@@ -121,7 +122,7 @@ interface TransactionDao {
             " from `transaction`, category, source " +
             "where category.id = `transaction`.categoryId and " +
             "source.id = `transaction`.sourceId and " +
-            "`transaction`.id = :id")
+            "`transaction`.id = :id ")
     fun getTransactionWithDetails(id: Int): Flow<TransactionDetails>
 
 }

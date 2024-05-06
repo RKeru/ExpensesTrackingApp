@@ -122,6 +122,9 @@ fun TransactionEntryScreen(
                     navigateBack()
                 }
             },
+            onCancelClick = {
+                navigateBack()
+            },
             modifier = Modifier
                 .padding(
                     start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
@@ -141,6 +144,7 @@ fun ItemEntryBody(
     sourceList: List<Source>,
     onItemValueChange: (TransactionUiDetails) -> Unit,
     onSaveClick: () -> Unit,
+    onCancelClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -157,7 +161,7 @@ fun ItemEntryBody(
             modifier = Modifier.fillMaxWidth()
         ) {
             Button(
-                onClick = {},
+                onClick = onCancelClick,
                 enabled = true,
                 shape = MaterialTheme.shapes.small,
                 modifier = Modifier.weight(1f)
@@ -167,7 +171,7 @@ fun ItemEntryBody(
             Spacer(modifier = Modifier.weight(0.3f))
             Button(
                 onClick =  onSaveClick,
-                enabled = true,
+                enabled = transactionUiState.isEntryValid,
                 shape = MaterialTheme.shapes.small,
                 modifier = Modifier.weight(1f)
             ) {
@@ -344,8 +348,9 @@ private fun TextSwitch(
                                 indication = null,
                                 onClick = {
                                     onSelectionChange(index)
-                                    onValueChange(transactionDetails.copy(isExpense = !index.toBool))
-                                    Log.d("MyApp", "${transactionDetails.copy(isExpense = !index.toBool)}, index: $index")
+                                    onValueChange(
+                                        transactionDetails.copy(isExpense = !index.toBool)
+                                    )
                                 }
                             ),
                         contentAlignment = Alignment.Center
@@ -585,7 +590,8 @@ private fun TransactionEntryScreenPreview() {
                 Source(2, "Satispay", 0.0)
             ),
             onItemValueChange = {},
-            onSaveClick = { }
+            onSaveClick = { },
+            onCancelClick = {}
         )
     }
 }
