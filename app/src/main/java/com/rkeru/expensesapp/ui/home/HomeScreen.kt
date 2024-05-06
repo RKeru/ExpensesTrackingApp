@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rkeru.expensesapp.ExpensesBottomNavigation
+import com.rkeru.expensesapp.ExpensesTopAppBar
 import com.rkeru.expensesapp.R
 import com.rkeru.expensesapp.data.model.TransactionDetails
 import com.rkeru.expensesapp.ui.AppViewModelProvider
@@ -65,6 +66,13 @@ fun HomeScreen(
 
     Scaffold (
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            ExpensesTopAppBar(
+                title = stringResource(id = R.string.app_name),
+                canNavigateBack = false,
+                scrollBehavior = scrollBehavior
+            )
+        },
         bottomBar = {
             ExpensesBottomNavigation(
                 navigateToSettings = navigateToSettings,
@@ -84,7 +92,7 @@ fun HomeScreen(
                )
             }
         }
-    ) {innerPadding ->
+    ) { innerPadding ->
         HomeBody(
             transactionList = homeUiState.transactionList,
             onItemClick = navigateToDetails,
@@ -100,7 +108,7 @@ private fun HomeBody(
     transactionList: List<TransactionDetails>,
     onItemClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp)
+    contentPadding: PaddingValues = PaddingValues(2.dp)
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -133,7 +141,7 @@ private fun TransactionList(
         modifier = modifier,
         contentPadding = contentPadding
     ) {
-        items(items = itemList, key = { it.transactionId} ) {item ->
+        items(items = itemList, key = { it.transactionId } ) {item ->
             TransactionItem(
                 transaction = item,
                 modifier = Modifier

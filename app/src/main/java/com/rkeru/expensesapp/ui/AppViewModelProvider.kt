@@ -16,7 +16,11 @@ object AppViewModelProvider {
         }
         // Initializer for ItemEntryViewModel
         initializer {
-            TransactionEntryViewModel(expensesApplication().container.transactionRepo)
+            TransactionEntryViewModel(
+                expensesApplication().container.transactionRepo,
+                expensesApplication().container.categoryRepo,
+                expensesApplication().container.sourceRepo
+            )
         }
     }
 }
