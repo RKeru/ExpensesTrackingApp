@@ -1,11 +1,13 @@
 package com.rkeru.expensesapp.ui
 
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.rkeru.expensesapp.ExpensesApplication
 import com.rkeru.expensesapp.ui.home.HomeViewModel
+import com.rkeru.expensesapp.ui.transaction.TransactionDetailsViewModel
 import com.rkeru.expensesapp.ui.transaction.TransactionEntryViewModel
 
 object AppViewModelProvider {
@@ -17,6 +19,15 @@ object AppViewModelProvider {
         // Initializer for ItemEntryViewModel
         initializer {
             TransactionEntryViewModel(
+                expensesApplication().container.transactionRepo,
+                expensesApplication().container.categoryRepo,
+                expensesApplication().container.sourceRepo
+            )
+        }
+        // Initializer for TransactionDetailsViewModel
+        initializer {
+            TransactionDetailsViewModel(
+                this.createSavedStateHandle(),
                 expensesApplication().container.transactionRepo,
                 expensesApplication().container.categoryRepo,
                 expensesApplication().container.sourceRepo

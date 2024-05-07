@@ -11,3 +11,6 @@ import com.rkeru.expensesapp.data.model.Source
 val Int.toBool: Boolean
     get() = this != 0
 
+fun Boolean.toInt(): Int {
+    return if (this) 1 else 0
+}

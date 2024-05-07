@@ -28,7 +28,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -41,12 +40,13 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -75,19 +75,20 @@ import com.rkeru.expensesapp.R
 import com.rkeru.expensesapp.data.model.Category
 import com.rkeru.expensesapp.data.model.Source
 import com.rkeru.expensesapp.toBool
+import com.rkeru.expensesapp.toInt
 import com.rkeru.expensesapp.ui.AppViewModelProvider
 import com.rkeru.expensesapp.ui.navigation.NavigationDestination
 import com.rkeru.expensesapp.ui.theme.ExpensesAppTheme
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Currency
 import java.util.Date
 import java.util.Locale
+import kotlin.math.exp
 
 object TransactionEntryDestination: NavigationDestination {
     override val route: String = "item_entry"
-    override val titleRes: Int = R.string.add_item
+    override val titleRes: Int = R.string.add_transaction_screen
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -190,7 +191,7 @@ fun TransactionInputForm(
     onValueChange: (TransactionUiDetails) -> Unit,
     enabled: Boolean = true
 ) {
-    var expenseType = remember { mutableStateOf(0) }
+
 
     Column (
         modifier = modifier,
@@ -216,21 +217,19 @@ fun TransactionInputForm(
             label = { Text(stringResource(id = R.string.entry_screen_value)) },
             leadingIcon = { Text(Currency.getInstance(Locale.getDefault()).symbol) },
             modifier = Modifier.fillMaxWidth(),
-            enabled = true,
+            enabled = enabled,
             singleLine = true
         )
         TextSwitch(
-            selectedIndex = expenseType,
+            initialSelectedIndex = if (transactionUiDetails.isExpense) 0 else 1,
             transactionDetails = transactionUiDetails,
             items = listOf(
                 stringResource(id = R.string.entry_screen_type_expense),
                 stringResource(id = R.string.entry_screen_type_income)
             ),
-            onSelectionChange = {
-                expenseType.value = it
-            },
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
+            enabled = enabled
         )
         Row (
             modifier = Modifier.fillMaxWidth()
@@ -239,19 +238,22 @@ fun TransactionInputForm(
                 title = stringResource(id = R.string.entry_screen_category),
                 categoryList = categoryList,
                 transactionUiDetails = transactionUiDetails,
-                onValueChange = onValueChange
+                onValueChange = onValueChange,
+                enabled = enabled
             )
             //Spacer(modifier = Modifier.weight(1f))
             DateInput(
                 title = stringResource(id = R.string.entry_screen_date),
                 transactionUiDetails = transactionUiDetails,
-                onValueChange
+                onValueChange = onValueChange,
+                enabled = enabled
             )
             SourceDropDownMenu(
                 title = stringResource(id = R.string.entry_screen_source),
                 sourceList = sourceList,
                 transactionUiDetails = transactionUiDetails,
-                onValueChange = onValueChange
+                onValueChange = onValueChange,
+                enabled = enabled
             )
         }
         OutlinedTextField(
@@ -261,7 +263,7 @@ fun TransactionInputForm(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp),
-            enabled = true,
+            enabled = enabled,
             singleLine = false
         )
     }
@@ -271,11 +273,20 @@ fun TransactionInputForm(
 private fun TextSwitch(
     transactionDetails: TransactionUiDetails,
     modifier: Modifier = Modifier,
-    selectedIndex: MutableState<Int>,
+    initialSelectedIndex: Int,
     items: List<String>,
-    onSelectionChange: (Int) -> Unit,
-    onValueChange: (TransactionUiDetails) -> Unit
+    onValueChange: (TransactionUiDetails) -> Unit,
+    enabled: Boolean = true
 ) {
+    Log.d("MyApp", "Text Switch, Initial Value: $transactionDetails")
+    val expenseType = remember { mutableIntStateOf(initialSelectedIndex) }
+    Log.d("MyApp", "Expense Type: $expenseType")
+
+    LaunchedEffect(key1 = transactionDetails.isExpense) {
+        if (!enabled) {
+            expenseType.intValue = (!transactionDetails.isExpense).toInt()
+        }
+    }
 
     BoxWithConstraints(
         modifier
@@ -291,7 +302,7 @@ private fun TextSwitch(
             val tabWidth = maxWidth / items.size
 
             val indicatorOffset by animateDpAsState(
-                targetValue = tabWidth * selectedIndex.value,
+                targetValue = tabWidth * expenseType.intValue,
                 animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing),
                 label = "indicator offset"
             )
@@ -324,7 +335,7 @@ private fun TextSwitch(
                         drawRoundRect(
                             topLeft = Offset(x = indicatorOffset.toPx(), 0f),
                             size = Size(size.width / 2, size.height),
-                            color = if (selectedIndex.value == 0) {
+                            color = if (expenseType.intValue == 0) {
                                 Color.Red.copy(alpha = 0.5f)
                             } else {
                                 Color.Green.copy(alpha = 0.5f)
@@ -347,10 +358,12 @@ private fun TextSwitch(
                                 },
                                 indication = null,
                                 onClick = {
-                                    onSelectionChange(index)
-                                    onValueChange(
-                                        transactionDetails.copy(isExpense = !index.toBool)
-                                    )
+                                    if (enabled) {
+                                        expenseType.intValue = index
+                                        onValueChange(
+                                            transactionDetails.copy(isExpense = !index.toBool)
+                                        )
+                                    }
                                 }
                             ),
                         contentAlignment = Alignment.Center
@@ -383,10 +396,17 @@ private fun CategoryDropDownMenu(
     transactionUiDetails: TransactionUiDetails,
     onValueChange: (TransactionUiDetails) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
 
     var expanded by remember { mutableStateOf(false) }
-    var selected by remember { mutableStateOf(0) }
+    var selected by remember { mutableIntStateOf(transactionUiDetails.categoryId - 1) }
+
+    LaunchedEffect(key1 = transactionUiDetails.categoryId) {
+        if (!enabled) {
+            selected = transactionUiDetails.categoryId - 1
+        }
+    }
 
     Column (
         modifier = modifier
@@ -401,7 +421,7 @@ private fun CategoryDropDownMenu(
                 .size(width = 100.dp, height = 48.dp)
                 .border(1.dp, Color.Gray, shape = RoundedCornerShape(4.dp))
                 .background(Color.White)
-                .clickable { expanded = true }
+                .clickable { if (enabled) expanded = true }
         ) {
             Text(
                 text = if (categoryList.isEmpty()) {
@@ -448,10 +468,17 @@ private fun SourceDropDownMenu(
     transactionUiDetails: TransactionUiDetails,
     onValueChange: (TransactionUiDetails) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
 
     var expanded by remember { mutableStateOf(false) }
-    var selected by remember { mutableStateOf(0) }
+    var selected by remember { mutableIntStateOf(transactionUiDetails.sourceId - 1) }
+
+    LaunchedEffect(key1 = transactionUiDetails.sourceId) {
+        if (!enabled) {
+            selected = transactionUiDetails.sourceId -1
+        }
+    }
 
     Column (
         modifier = modifier
@@ -466,7 +493,7 @@ private fun SourceDropDownMenu(
                 .size(width = 100.dp, height = 48.dp)
                 .border(1.dp, Color.Gray, shape = RoundedCornerShape(4.dp))
                 .background(Color.White)
-                .clickable { expanded = true }
+                .clickable { if (enabled) expanded = true }
         ) {
             Text(
                 text = if (sourceList.isEmpty()) {
@@ -511,18 +538,29 @@ private fun DateInput(
     title: String,
     transactionUiDetails: TransactionUiDetails,
     onValueChange: (TransactionUiDetails) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
-
     val datePickerState = rememberDatePickerState(
         initialDisplayedMonthMillis = System.currentTimeMillis()
     )
     val formatter = SimpleDateFormat(stringResource(id = R.string.date_format))
     val selectedDate = remember {
         mutableStateOf(
-            formatter.format(Date())
+            if (transactionUiDetails.date != ""){
+                transactionUiDetails.date
+            } else {
+                formatter.format(Date())
+            }
         )
     }
+
+    LaunchedEffect(key1 = transactionUiDetails.date) {
+        if (!enabled) {
+            selectedDate.value = transactionUiDetails.date
+        }
+    }
+
     val openDialog = remember { mutableStateOf(false) }
 
     Column (
@@ -535,7 +573,7 @@ private fun DateInput(
                 .size(width = 120.dp, height = 48.dp)
                 .border(1.dp, Color.Gray, shape = RoundedCornerShape(4.dp))
                 .background(Color.White)
-                .clickable { openDialog.value = true }
+                .clickable { if (enabled) openDialog.value = true }
         ) {
             Text(
                 text = selectedDate.value,
@@ -551,7 +589,7 @@ private fun DateInput(
                                 openDialog.value = false
                                 onValueChange(transactionUiDetails.copy(date = selectedDate.value))
                                       },
-                            enabled = true
+                            enabled = enabled
                         ) {
                             Text (text = "Confirm")
                         }
@@ -564,9 +602,9 @@ private fun DateInput(
                         }
                     }
                 ) {
+                    DatePicker(state = datePickerState)
                     val selection = Date(datePickerState.selectedDateMillis ?: 0)
                     selectedDate.value = formatter.format(selection)
-                    DatePicker(state = datePickerState)
                 }
             }
 
@@ -601,7 +639,7 @@ private fun TransactionEntryScreenPreview() {
 private fun DropDownMenuPreview(){
     val items = listOf("Element 1", "Element 2")
     var expanded by remember { mutableStateOf(false) }
-    var selected by remember { mutableStateOf(0) }
+    var selected by remember { mutableIntStateOf(0) }
     Text(
         text = items[selected],
         modifier = Modifier
