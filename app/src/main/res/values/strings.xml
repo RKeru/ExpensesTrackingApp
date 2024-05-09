@@ -26,6 +26,10 @@
     <string name="detail_screen_modify">Modify</string>
     <string name="detail_screen_delete">Delete</string>
     <string name="detail_screen_update">Update</string>
+    <string name="detail_screen_attention">Attention!</string>
+    <string name="detail_screen_delete_question">Are you sure you want to delete?</string>
+    <string name="detail_screen_yes">Yes</string>
+    <string name="detail_screen_no">No</string>
     <!-- Screens Strings -->
     <string name="money_qty">€ %.2f</string>
     <string name="budget_txt">Budget</string>

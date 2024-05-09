@@ -38,7 +38,7 @@ fun ExpensesNavHost(
         }
         composable(route = TransactionEntryDestination.route) {
             TransactionEntryScreen(
-                navigateBack = { navController.navigate(HomeDestination.route) },
+                navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() }
             )
         }
@@ -49,7 +49,7 @@ fun ExpensesNavHost(
             })
             ) {
             TransactionDetailsScreen(
-                navigateBack = { navController.navigate(HomeDestination.route) },
+                navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() }
             )
         }

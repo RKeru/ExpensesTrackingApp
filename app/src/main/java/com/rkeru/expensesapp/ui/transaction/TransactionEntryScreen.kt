@@ -192,14 +192,32 @@ fun TransactionInputForm(
     enabled: Boolean = true
 ) {
 
+    val title_txt = remember { mutableStateOf("") }
+    val quantity_txt = remember { mutableStateOf("") }
+    val note_txt = remember { mutableStateOf("") }
+
+    LaunchedEffect(
+        key1 = transactionUiDetails.title,
+        key2 = transactionUiDetails.quantity,
+        key3 = transactionUiDetails.note
+    ) {
+        if (!enabled){
+            title_txt.value = transactionUiDetails.title
+            quantity_txt.value = transactionUiDetails.quantity
+            note_txt.value = transactionUiDetails.note
+        }
+    }
 
     Column (
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
         OutlinedTextField(
-            value = transactionUiDetails.title,
-            onValueChange =  { onValueChange(transactionUiDetails.copy(title = it)) },
+            value = title_txt.value,
+            onValueChange =  {
+                title_txt.value = it
+                onValueChange(transactionUiDetails.copy(title = title_txt.value))
+                             },
             label = { Text(text = stringResource(id = R.string.entry_screen_title)) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -211,8 +229,11 @@ fun TransactionInputForm(
             singleLine = true
         )
         OutlinedTextField(
-            value = transactionUiDetails.quantity,
-            onValueChange = { onValueChange(transactionUiDetails.copy(quantity = it)) },
+            value = quantity_txt.value,
+            onValueChange = {
+                quantity_txt.value = it
+                onValueChange(transactionUiDetails.copy(quantity = quantity_txt.value))
+                            },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             label = { Text(stringResource(id = R.string.entry_screen_value)) },
             leadingIcon = { Text(Currency.getInstance(Locale.getDefault()).symbol) },
@@ -257,8 +278,11 @@ fun TransactionInputForm(
             )
         }
         OutlinedTextField(
-            value = transactionUiDetails.note,
-            onValueChange = { onValueChange(transactionUiDetails.copy(note = it)) },
+            value = note_txt.value,
+            onValueChange = {
+                note_txt.value = it
+                onValueChange(transactionUiDetails.copy(note = note_txt.value))
+                            },
             label = { Text(text = stringResource(id = R.string.entry_screen_note)) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -278,9 +302,7 @@ private fun TextSwitch(
     onValueChange: (TransactionUiDetails) -> Unit,
     enabled: Boolean = true
 ) {
-    Log.d("MyApp", "Text Switch, Initial Value: $transactionDetails")
     val expenseType = remember { mutableIntStateOf(initialSelectedIndex) }
-    Log.d("MyApp", "Expense Type: $expenseType")
 
     LaunchedEffect(key1 = transactionDetails.isExpense) {
         if (!enabled) {
@@ -587,7 +609,9 @@ private fun DateInput(
                         TextButton(
                             onClick = {
                                 openDialog.value = false
-                                onValueChange(transactionUiDetails.copy(date = selectedDate.value))
+                                onValueChange(
+                                    transactionUiDetails.copy(date = selectedDate.value)
+                                )
                                       },
                             enabled = enabled
                         ) {
@@ -627,9 +651,9 @@ private fun TransactionEntryScreenPreview() {
                 Source(1, "BancaXYZ", 0.0),
                 Source(2, "Satispay", 0.0)
             ),
-            onItemValueChange = {},
-            onSaveClick = { },
-            onCancelClick = {}
+            onItemValueChange = {  },
+            onSaveClick = {  },
+            onCancelClick = {  }
         )
     }
 }

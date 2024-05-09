@@ -34,11 +34,19 @@ class TransactionDetailsViewModel (
     private var _transactionUiState by  mutableStateOf(TransactionUiState())
         private set
 
+    fun getMutableTransactionDetails(): TransactionUiDetails {
+        return _transactionUiState.transactionDetailed.copy()
+    }
+
+    private val emptyTransactionUiDetails: TransactionUiDetails = TransactionUiDetails()
+
     private val transactionId: Int =
         checkNotNull(savedStateHandle[TransactionDetailsDestination.IDARG])
 
     val transactionUiState: StateFlow<TransactionUiState> =
-        transactionRepository.getDetailedExpenseStream(transactionId).map {
+        transactionRepository.getDetailedExpenseStream(transactionId)
+            .filterNotNull()
+            .map {
             TransactionUiState(
                 transactionDetailed = it.toTransactionUiDetails(),
                 isEntryValid = true
@@ -66,11 +74,88 @@ class TransactionDetailsViewModel (
             )
 
     fun updateUiState(transactionDetailed: TransactionUiDetails) {
-        _transactionUiState =
-            TransactionUiState(
-                transactionDetailed = transactionDetailed,
-                isEntryValid = validateInput(transactionDetailed)
+        // First Update -> the internal state is set at the DB value
+        if (_transactionUiState.transactionDetailed == emptyTransactionUiDetails) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = transactionUiState.value.transactionDetailed,
+                isEntryValid = transactionUiState.value.isEntryValid
             )
+        }
+
+        // Check of singles fields
+        if (transactionDetailed.title != transactionUiState.value.transactionDetailed.title) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = _transactionUiState.transactionDetailed.copy(
+                    title = transactionDetailed.title
+                ),
+                isEntryValid = validateInput()
+            )
+        }
+        if (transactionDetailed.isExpense != transactionUiState.value.transactionDetailed.isExpense) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = _transactionUiState.transactionDetailed.copy(
+                    isExpense = transactionDetailed.isExpense
+                ),
+                isEntryValid = validateInput()
+            )
+        }
+        if (transactionDetailed.quantity != transactionUiState.value.transactionDetailed.quantity) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = _transactionUiState.transactionDetailed.copy(
+                    quantity = transactionDetailed.quantity
+                ),
+                isEntryValid = validateInput()
+            )
+        }
+        if (transactionDetailed.note != transactionUiState.value.transactionDetailed.note) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = _transactionUiState.transactionDetailed.copy(
+                    note = transactionDetailed.note
+                ),
+                isEntryValid = validateInput()
+            )
+        }
+        if (transactionDetailed.sourceId != transactionUiState.value.transactionDetailed.sourceId) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = _transactionUiState.transactionDetailed.copy(
+                    sourceId = transactionDetailed.sourceId
+                ),
+                isEntryValid = validateInput()
+            )
+        }
+        if (transactionDetailed.sourceName != transactionUiState.value.transactionDetailed.sourceName) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = _transactionUiState.transactionDetailed.copy(
+                    sourceName = transactionDetailed.sourceName
+                ),
+                isEntryValid = validateInput()
+            )
+        }
+        if (transactionDetailed.categoryId != transactionUiState.value.transactionDetailed.categoryId) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = _transactionUiState.transactionDetailed.copy(
+                    categoryId = transactionDetailed.categoryId
+                ),
+                isEntryValid = validateInput()
+            )
+        }
+        if (transactionDetailed.categoryName != transactionUiState.value.transactionDetailed.categoryName) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = _transactionUiState.transactionDetailed.copy(
+                    categoryName = transactionDetailed.categoryName
+                ),
+                isEntryValid = validateInput()
+            )
+        }
+        if (transactionDetailed.date != transactionUiState.value.transactionDetailed.date) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = _transactionUiState.transactionDetailed.copy(
+                    date = transactionDetailed.date
+                ),
+                isEntryValid = validateInput()
+            )
+        }
+
     }
 
 
@@ -83,6 +168,7 @@ class TransactionDetailsViewModel (
     }
 
     suspend fun updateTransaction() {
+        Log.d("MyApp", "Updating: ${_transactionUiState.transactionDetailed}")
         if (validateInput()) {
             transactionRepository.updateTransaction(
                 _transactionUiState.transactionDetailed.toTransaction()
@@ -91,6 +177,14 @@ class TransactionDetailsViewModel (
     }
 
     suspend fun deleteTransaction() {
+        // If the user didn't modify the fields, set the internal state as the one from the DB
+        if (_transactionUiState.transactionDetailed == emptyTransactionUiDetails) {
+            _transactionUiState = TransactionUiState(
+                transactionDetailed = transactionUiState.value.transactionDetailed,
+                isEntryValid = transactionUiState.value.isEntryValid
+            )
+        }
+
         transactionRepository.deleteTransaction(
             _transactionUiState.transactionDetailed.toTransaction()
         )
