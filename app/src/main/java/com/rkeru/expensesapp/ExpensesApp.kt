@@ -116,9 +116,9 @@ fun ExpensesBottomNavigation(
                 onClick = {
                     selectedItem = index
                     when(selectedItem) {
-                        0 -> navigateToSettings
-                        1 -> navigateToHome
-                        2 -> navigateToDashboard
+                        0 -> navigateToSettings()
+                        1 -> navigateToHome()
+                        2 -> navigateToDashboard()
                     }
                 },
                 modifier = modifier

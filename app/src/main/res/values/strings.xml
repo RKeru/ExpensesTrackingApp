@@ -7,6 +7,8 @@
     <string name="add_transaction">Add Transaction</string>
     <!-- Screens Names -->
     <string name="home_screen">Home</string>
+    <string name="settings_screen">Settings</string>
+    <string name="dashboard_screen">Dashboard</string>
     <string name="add_transaction_screen">Add Transaction</string>
     <string name="transaction_details_screen">Transaction Details</string>
     <!-- Transaction Entry (Add) Labels Strings -->

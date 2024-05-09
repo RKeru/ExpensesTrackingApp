@@ -7,8 +7,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.rkeru.expensesapp.ui.dashboard.DashboardDestination
+import com.rkeru.expensesapp.ui.dashboard.DashboardScreen
 import com.rkeru.expensesapp.ui.home.HomeDestination
 import com.rkeru.expensesapp.ui.home.HomeScreen
+import com.rkeru.expensesapp.ui.settings.SettingDestination
+import com.rkeru.expensesapp.ui.settings.SettingsScreen
 import com.rkeru.expensesapp.ui.transaction.TransactionDetailsDestination
 import com.rkeru.expensesapp.ui.transaction.TransactionDetailsScreen
 import com.rkeru.expensesapp.ui.transaction.TransactionEntryDestination
@@ -31,9 +35,9 @@ fun ExpensesNavHost(
                 navigateToDetails = {
                     navController.navigate("${TransactionDetailsDestination.route}/${it}")
                 },
-                navigateToSettings = { /*TODO*/ },
+                navigateToSettings = { navController.navigate(SettingDestination.route) },
                 navigateToHome = { navController.navigate(HomeDestination.route) },
-                navigateToDashboard = { /*TODO*/ }
+                navigateToDashboard = { navController.navigate(DashboardDestination.route) }
             )
         }
         composable(route = TransactionEntryDestination.route) {
@@ -52,6 +56,18 @@ fun ExpensesNavHost(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() }
             )
+        }
+        composable(route = SettingDestination.route) {
+            SettingsScreen(
+                navigateToSettings = { navController.navigate(SettingDestination.route) },
+                navigateToHome = { navController.navigate(HomeDestination.route) },
+                navigateToDashboard = { navController.navigate(DashboardDestination.route) })
+        }
+        composable(route = DashboardDestination.route) {
+            DashboardScreen(
+                navigateToSettings = { navController.navigate(SettingDestination.route) },
+                navigateToHome = { navController.navigate(HomeDestination.route) },
+                navigateToDashboard = { navController.navigate(DashboardDestination.route) })
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.rkeru.expensesapp.ui.transaction
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -43,7 +42,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -84,7 +82,6 @@ import java.text.SimpleDateFormat
 import java.util.Currency
 import java.util.Date
 import java.util.Locale
-import kotlin.math.exp
 
 object TransactionEntryDestination: NavigationDestination {
     override val route: String = "item_entry"
@@ -192,9 +189,9 @@ fun TransactionInputForm(
     enabled: Boolean = true
 ) {
 
-    val title_txt = remember { mutableStateOf("") }
-    val quantity_txt = remember { mutableStateOf("") }
-    val note_txt = remember { mutableStateOf("") }
+    val titleTxt = remember { mutableStateOf("") }
+    val quantityTxt = remember { mutableStateOf("") }
+    val noteTxt = remember { mutableStateOf("") }
 
     LaunchedEffect(
         key1 = transactionUiDetails.title,
@@ -202,9 +199,9 @@ fun TransactionInputForm(
         key3 = transactionUiDetails.note
     ) {
         if (!enabled){
-            title_txt.value = transactionUiDetails.title
-            quantity_txt.value = transactionUiDetails.quantity
-            note_txt.value = transactionUiDetails.note
+            titleTxt.value = transactionUiDetails.title
+            quantityTxt.value = transactionUiDetails.quantity
+            noteTxt.value = transactionUiDetails.note
         }
     }
 
@@ -213,10 +210,10 @@ fun TransactionInputForm(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
         OutlinedTextField(
-            value = title_txt.value,
+            value = titleTxt.value,
             onValueChange =  {
-                title_txt.value = it
-                onValueChange(transactionUiDetails.copy(title = title_txt.value))
+                titleTxt.value = it
+                onValueChange(transactionUiDetails.copy(title = titleTxt.value))
                              },
             label = { Text(text = stringResource(id = R.string.entry_screen_title)) },
             colors = OutlinedTextFieldDefaults.colors(
@@ -229,14 +226,14 @@ fun TransactionInputForm(
             singleLine = true
         )
         OutlinedTextField(
-            value = quantity_txt.value,
+            value = quantityTxt.value,
             onValueChange = {
-                quantity_txt.value = it
-                onValueChange(transactionUiDetails.copy(quantity = quantity_txt.value))
+                quantityTxt.value = it
+                onValueChange(transactionUiDetails.copy(quantity = quantityTxt.value))
                             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             label = { Text(stringResource(id = R.string.entry_screen_value)) },
-            leadingIcon = { Text(Currency.getInstance(Locale.getDefault()).symbol) },
+            leadingIcon = { Text(Currency.getInstance(Locale.ITALY).symbol) },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
@@ -278,10 +275,10 @@ fun TransactionInputForm(
             )
         }
         OutlinedTextField(
-            value = note_txt.value,
+            value = noteTxt.value,
             onValueChange = {
-                note_txt.value = it
-                onValueChange(transactionUiDetails.copy(note = note_txt.value))
+                noteTxt.value = it
+                onValueChange(transactionUiDetails.copy(note = noteTxt.value))
                             },
             label = { Text(text = stringResource(id = R.string.entry_screen_note)) },
             modifier = Modifier
