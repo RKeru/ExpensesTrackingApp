@@ -13,6 +13,8 @@ import com.rkeru.expensesapp.ui.home.HomeDestination
 import com.rkeru.expensesapp.ui.home.HomeScreen
 import com.rkeru.expensesapp.ui.settings.SettingDestination
 import com.rkeru.expensesapp.ui.settings.SettingsScreen
+import com.rkeru.expensesapp.ui.settings.category.CategoryListDestination
+import com.rkeru.expensesapp.ui.settings.category.CategoryListScreen
 import com.rkeru.expensesapp.ui.transaction.TransactionDetailsDestination
 import com.rkeru.expensesapp.ui.transaction.TransactionDetailsScreen
 import com.rkeru.expensesapp.ui.transaction.TransactionEntryDestination
@@ -61,13 +63,23 @@ fun ExpensesNavHost(
             SettingsScreen(
                 navigateToSettings = { navController.navigate(SettingDestination.route) },
                 navigateToHome = { navController.navigate(HomeDestination.route) },
-                navigateToDashboard = { navController.navigate(DashboardDestination.route) })
+                navigateToDashboard = { navController.navigate(DashboardDestination.route) },
+                navigateToCategoryList = { navController.navigate(CategoryListDestination.route) }
+            )
         }
         composable(route = DashboardDestination.route) {
             DashboardScreen(
                 navigateToSettings = { navController.navigate(SettingDestination.route) },
                 navigateToHome = { navController.navigate(HomeDestination.route) },
                 navigateToDashboard = { navController.navigate(DashboardDestination.route) })
+        }
+        composable(route = CategoryListDestination.route) {
+            CategoryListScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() },
+                navigateToEntry = {  },
+                navigateToDetail = {  }
+            )
         }
     }
 }
