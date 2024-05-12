@@ -49,5 +49,18 @@
     <!-- Setting Screen Strings -->
     <string name="setting_screen_category">Category</string>
     <string name="setting_screen_source">Source</string>
+    <!-- Add Category Screen Strings -->
+    <string name="entry_category_screen_title">Title</string>
+    <string name="entry_category_screen_description">Description</string>
+    <string name="entry_category_screen_cancel">Cancel</string>
+    <string name="entry_category_screen_add">Add</string>
+    <!-- Category Details Screen Strings -->
+    <string name="detail_category_screen_modify">Modify</string>
+    <string name="detail_category_screen_delete">Delete</string>
+    <string name="detail_category_screen_update">Update</string>
+    <string name="detail_category_screen_attention">Attention!</string>
+    <string name="detail_category_screen_delete_question">Are you sure you want to delete? Every transaction associated with this category will be eliminated. Are you really sure?</string>
+    <string name="detail_category_screen_yes">Yes</string>
+    <string name="detail_category_screen_no">No</string>
 
 </resources>

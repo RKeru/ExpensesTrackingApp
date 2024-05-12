@@ -32,7 +32,6 @@ class TransactionDetailsViewModel (
     }
 
     private var _transactionUiState by  mutableStateOf(TransactionUiState())
-        private set
 
     fun getMutableTransactionDetails(): TransactionUiDetails {
         return _transactionUiState.transactionDetailed.copy()

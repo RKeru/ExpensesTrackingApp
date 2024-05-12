@@ -13,6 +13,10 @@ import com.rkeru.expensesapp.ui.home.HomeDestination
 import com.rkeru.expensesapp.ui.home.HomeScreen
 import com.rkeru.expensesapp.ui.settings.SettingDestination
 import com.rkeru.expensesapp.ui.settings.SettingsScreen
+import com.rkeru.expensesapp.ui.settings.category.CategoryDetailDestination
+import com.rkeru.expensesapp.ui.settings.category.CategoryDetailScreen
+import com.rkeru.expensesapp.ui.settings.category.CategoryEntryDestination
+import com.rkeru.expensesapp.ui.settings.category.CategoryEntryScreen
 import com.rkeru.expensesapp.ui.settings.category.CategoryListDestination
 import com.rkeru.expensesapp.ui.settings.category.CategoryListScreen
 import com.rkeru.expensesapp.ui.transaction.TransactionDetailsDestination
@@ -77,8 +81,27 @@ fun ExpensesNavHost(
             CategoryListScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
-                navigateToEntry = {  },
-                navigateToDetail = {  }
+                navigateToEntry = { navController.navigate(CategoryEntryDestination.route) },
+                navigateToDetail = {
+                    navController.navigate("${CategoryDetailDestination.route}/${it}")
+                }
+            )
+        }
+        composable(route = CategoryEntryDestination.route) {
+            CategoryEntryScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
+            )
+        }
+        composable(
+            route = CategoryDetailDestination.routeWithArgs,
+            arguments = listOf(navArgument(CategoryDetailDestination.IDARG) {
+                type = NavType.IntType
+            })
+        ) {
+            CategoryDetailScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
             )
         }
     }

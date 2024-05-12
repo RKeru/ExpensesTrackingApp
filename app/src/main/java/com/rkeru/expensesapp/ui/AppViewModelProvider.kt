@@ -7,6 +7,9 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.rkeru.expensesapp.ExpensesApplication
 import com.rkeru.expensesapp.ui.home.HomeViewModel
+import com.rkeru.expensesapp.ui.settings.category.CategoryDetailViewModel
+import com.rkeru.expensesapp.ui.settings.category.CategoryEntryViewModel
+import com.rkeru.expensesapp.ui.settings.category.CategoryListViewModel
 import com.rkeru.expensesapp.ui.transaction.TransactionDetailsViewModel
 import com.rkeru.expensesapp.ui.transaction.TransactionEntryViewModel
 
@@ -31,6 +34,21 @@ object AppViewModelProvider {
                 expensesApplication().container.transactionRepo,
                 expensesApplication().container.categoryRepo,
                 expensesApplication().container.sourceRepo
+            )
+        }
+        // Initializer for CategoryListViewModel
+        initializer {
+            CategoryListViewModel(expensesApplication().container.categoryRepo)
+        }
+        // Initializer for CategoryEntryViewModel
+        initializer {
+            CategoryEntryViewModel(expensesApplication().container.categoryRepo)
+        }
+        // Initializer for CategoryDetailViewModel
+        initializer {
+            CategoryDetailViewModel(
+                this.createSavedStateHandle(),
+                expensesApplication().container.categoryRepo
             )
         }
     }
