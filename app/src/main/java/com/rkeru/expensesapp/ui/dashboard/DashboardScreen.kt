@@ -1,5 +1,6 @@
 package com.rkeru.expensesapp.ui.dashboard
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.rkeru.expensesapp.ExpensesBottomNavigation
 import com.rkeru.expensesapp.ExpensesTopAppBar
 import com.rkeru.expensesapp.R
@@ -47,7 +49,10 @@ fun DashboardScreen(
         }
     ) { innerPadding ->
         Text(
-            text = "Dashboard: Coming Soon...",
+            text = "Coming Soon...",
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(start = 20.dp, top = 10.dp)
         )
     }
 }
