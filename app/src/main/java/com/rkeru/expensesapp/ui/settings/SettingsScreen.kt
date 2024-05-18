@@ -39,6 +39,7 @@ fun SettingsScreen(
     navigateToHome: () -> Unit,
     navigateToDashboard: () -> Unit,
     navigateToCategoryList: () -> Unit,
+    navigateToSourceList: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -63,6 +64,7 @@ fun SettingsScreen(
     ) { innerPadding ->
         SettingsBody(
             navigateToCategoryList = navigateToCategoryList,
+            navigateToSourceList = navigateToSourceList,
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding
         )
@@ -72,6 +74,7 @@ fun SettingsScreen(
 @Composable
 private fun SettingsBody(
     navigateToCategoryList: () -> Unit,
+    navigateToSourceList: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
@@ -97,7 +100,7 @@ private fun SettingsBody(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(dimensionResource(id = R.dimen.padding_medium))
-                .clickable { },
+                .clickable { navigateToSourceList() },
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
             Text(
@@ -114,7 +117,8 @@ private fun SettingsBody(
 fun SettingsBodyPreview() {
     ExpensesAppTheme {
         SettingsBody(
-            navigateToCategoryList = {  }
+            navigateToCategoryList = {  },
+            navigateToSourceList = {  }
         )
     }
 }

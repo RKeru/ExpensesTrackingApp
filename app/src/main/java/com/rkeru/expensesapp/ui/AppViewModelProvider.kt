@@ -10,6 +10,9 @@ import com.rkeru.expensesapp.ui.home.HomeViewModel
 import com.rkeru.expensesapp.ui.settings.category.CategoryDetailViewModel
 import com.rkeru.expensesapp.ui.settings.category.CategoryEntryViewModel
 import com.rkeru.expensesapp.ui.settings.category.CategoryListViewModel
+import com.rkeru.expensesapp.ui.settings.source.SourceDetailViewModel
+import com.rkeru.expensesapp.ui.settings.source.SourceEntryViewModel
+import com.rkeru.expensesapp.ui.settings.source.SourceListViewModel
 import com.rkeru.expensesapp.ui.transaction.TransactionDetailsViewModel
 import com.rkeru.expensesapp.ui.transaction.TransactionEntryViewModel
 
@@ -49,6 +52,21 @@ object AppViewModelProvider {
             CategoryDetailViewModel(
                 this.createSavedStateHandle(),
                 expensesApplication().container.categoryRepo
+            )
+        }
+        // Initializer for SourceListViewModel
+        initializer {
+            SourceListViewModel(expensesApplication().container.sourceRepo)
+        }
+        // Initializer for SourceEntryViewModel
+        initializer {
+            SourceEntryViewModel(expensesApplication().container.sourceRepo)
+        }
+        // Initializer for SourceDetailViewModel
+        initializer {
+            SourceDetailViewModel(
+                this.createSavedStateHandle(),
+                expensesApplication().container.sourceRepo
             )
         }
     }

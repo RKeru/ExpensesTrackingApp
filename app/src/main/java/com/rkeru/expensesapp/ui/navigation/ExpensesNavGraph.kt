@@ -19,6 +19,12 @@ import com.rkeru.expensesapp.ui.settings.category.CategoryEntryDestination
 import com.rkeru.expensesapp.ui.settings.category.CategoryEntryScreen
 import com.rkeru.expensesapp.ui.settings.category.CategoryListDestination
 import com.rkeru.expensesapp.ui.settings.category.CategoryListScreen
+import com.rkeru.expensesapp.ui.settings.source.SourceDetailDestination
+import com.rkeru.expensesapp.ui.settings.source.SourceDetailScreen
+import com.rkeru.expensesapp.ui.settings.source.SourceEntryDestination
+import com.rkeru.expensesapp.ui.settings.source.SourceEntryScreen
+import com.rkeru.expensesapp.ui.settings.source.SourceListDestination
+import com.rkeru.expensesapp.ui.settings.source.SourceListScreen
 import com.rkeru.expensesapp.ui.transaction.TransactionDetailsDestination
 import com.rkeru.expensesapp.ui.transaction.TransactionDetailsScreen
 import com.rkeru.expensesapp.ui.transaction.TransactionEntryDestination
@@ -68,7 +74,8 @@ fun ExpensesNavHost(
                 navigateToSettings = { navController.navigate(SettingDestination.route) },
                 navigateToHome = { navController.navigate(HomeDestination.route) },
                 navigateToDashboard = { navController.navigate(DashboardDestination.route) },
-                navigateToCategoryList = { navController.navigate(CategoryListDestination.route) }
+                navigateToCategoryList = { navController.navigate(CategoryListDestination.route) },
+                navigateToSourceList = { navController.navigate(SourceListDestination.route) }
             )
         }
         composable(route = DashboardDestination.route) {
@@ -79,7 +86,6 @@ fun ExpensesNavHost(
         }
         composable(route = CategoryListDestination.route) {
             CategoryListScreen(
-                navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
                 navigateToEntry = { navController.navigate(CategoryEntryDestination.route) },
                 navigateToDetail = {
@@ -100,6 +106,32 @@ fun ExpensesNavHost(
             })
         ) {
             CategoryDetailScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
+            )
+        }
+        composable(route = SourceListDestination.route) {
+            SourceListScreen(
+                onNavigateUp = { navController.navigateUp() },
+                navigateToEntry = { navController.navigate(SourceEntryDestination.route) },
+                navigateToDetail = {
+                    navController.navigate("${SourceDetailDestination.route}/${it}")
+                }
+            )
+        }
+        composable(route = SourceEntryDestination.route) {
+            SourceEntryScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
+            )
+        }
+        composable(
+            route = SourceDetailDestination.routeWithArgs,
+            arguments = listOf(navArgument(SourceDetailDestination.IDARG) {
+                type = NavType.IntType
+            })
+        ) {
+            SourceDetailScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() }
             )

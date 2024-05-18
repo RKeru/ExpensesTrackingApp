@@ -62,5 +62,18 @@
     <string name="detail_category_screen_delete_question">Are you sure you want to delete? Every transaction associated with this category will be eliminated. Are you really sure?</string>
     <string name="detail_category_screen_yes">Yes</string>
     <string name="detail_category_screen_no">No</string>
+    <!-- Add Source Screen Strings -->
+    <string name="entry_source_screen_title">Title</string>
+    <string name="entry_source_screen_balance">Budget</string>
+    <string name="entry_source_screen_cancel">Cancel</string>
+    <string name="entry_source_screen_add">Add</string>
+    <!-- Source Details Screen Strings -->
+    <string name="detail_source_screen_modify">Modify</string>
+    <string name="detail_source_screen_delete">Delete</string>
+    <string name="detail_source_screen_update">Update</string>
+    <string name="detail_source_screen_attention">Attention!</string>
+    <string name="detail_source_screen_delete_question">Are you sure you want to delete? Every transaction associated with this source will be eliminated. Are you really sure?</string>
+    <string name="detail_source_screen_yes">Yes</string>
+    <string name="detail_source_screen_no">No</string>
 
 </resources>
