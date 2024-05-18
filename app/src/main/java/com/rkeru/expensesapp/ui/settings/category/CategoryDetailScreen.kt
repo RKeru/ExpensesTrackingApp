@@ -132,7 +132,7 @@ fun CategoryDetailBody(
                     Text(text = stringResource(id = R.string.detail_category_screen_update))
                 }
                 if (deleteConfirmationRequired) {
-                    DeleteConfirmationDialog(
+                    DeleteCategoryConfirmationDialog(
                         onDeleteConfirm = {
                             deleteConfirmationRequired = false
                             onDeleteClick()
@@ -156,7 +156,7 @@ fun CategoryDetailBody(
 }
 
 @Composable
-private fun DeleteConfirmationDialog(
+private fun DeleteCategoryConfirmationDialog(
     onDeleteConfirm: () -> Unit,
     onDeleteCancel: () -> Unit,
     modifier: Modifier = Modifier

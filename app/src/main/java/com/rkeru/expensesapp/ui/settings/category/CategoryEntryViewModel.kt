@@ -11,10 +11,6 @@ class CategoryEntryViewModel(
     private val categoryRepository : CategoryRepo,
 ) : ViewModel() {
 
-    companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
-    }
-
     var categoryUiState by mutableStateOf(CategoryUiState())
         private set
 

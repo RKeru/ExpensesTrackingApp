@@ -40,14 +40,13 @@ import com.rkeru.expensesapp.ui.navigation.NavigationDestination
 import com.rkeru.expensesapp.ui.theme.ExpensesAppTheme
 
 object CategoryListDestination : NavigationDestination {
-    override val route: String = "CategoryList"
+    override val route: String = "category_list"
     override val titleRes: Int = R.string.category_list_screen
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryListScreen(
-    navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     navigateToEntry: () -> Unit,
     navigateToDetail: (Int) -> Unit,
