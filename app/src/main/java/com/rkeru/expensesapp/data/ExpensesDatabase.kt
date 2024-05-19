@@ -43,6 +43,7 @@ abstract class ExpensesDatabase : RoomDatabase() {
                     ExpensesDatabase::class.java,
                     "expenses_database"
                 )
+                    .createFromAsset("init_db.db")
                     .fallbackToDestructiveMigration()
                     .build()
                     .also { Instance = it }
