@@ -53,6 +53,7 @@ fun CategoryDetailScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val categoryUiState = viewModel.categoryUiState.collectAsState()
+    val categoryUiList = viewModel.categoryUiList.collectAsState()
 
     Scaffold (
         topBar = {
@@ -65,6 +66,7 @@ fun CategoryDetailScreen(
     ) { innerPadding ->
         CategoryDetailBody(
             categoryUiState = categoryUiState.value,
+            isLastElement = categoryUiList.value.categoryList.size <= 1,
             onItemValueChange = viewModel::updateUiState,
             onSaveClick = {
                   coroutineScope.launch {
@@ -93,6 +95,7 @@ fun CategoryDetailScreen(
 @Composable
 fun CategoryDetailBody(
     categoryUiState: CategoryUiState,
+    isLastElement: Boolean,
     onItemValueChange: (CategoryUiDetail) -> Unit,
     onSaveClick: () -> Unit,
     onDeleteClick: () -> Unit,
@@ -116,7 +119,7 @@ fun CategoryDetailBody(
             if (enableModify.value) {
                 Button(
                     onClick = { deleteConfirmationRequired = true },
-                    enabled = true,
+                    enabled = !isLastElement,
                     shape = MaterialTheme.shapes.small,
                     modifier = Modifier.weight(1f)
                 ) {
@@ -151,6 +154,9 @@ fun CategoryDetailBody(
                     Text (text = stringResource(id = R.string.detail_category_screen_modify))
                 }
             }
+        }
+        if (enableModify.value and isLastElement) {
+            Text(text = stringResource(id = R.string.detail_category_screen_last_element))
         }
     }
 }

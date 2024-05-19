@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rkeru.expensesapp.data.repository.CategoryRepo
+import com.rkeru.expensesapp.ui.transaction.CategoryUiList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -28,6 +29,17 @@ class CategoryDetailViewModel (
 
     private val categoryId: Int =
         checkNotNull(savedStateHandle[CategoryDetailDestination.IDARG])
+
+    val categoryUiList: StateFlow<CategoryUiList> =
+        categoryRepository.getAllCategoryStream()
+            .filterNotNull()
+            .map {
+                CategoryUiList(it)
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+                initialValue = CategoryUiList()
+            )
 
     val categoryUiState: StateFlow<CategoryUiState> =
         categoryRepository.getCategoryStream(categoryId)

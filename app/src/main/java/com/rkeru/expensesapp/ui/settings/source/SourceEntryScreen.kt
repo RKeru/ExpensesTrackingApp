@@ -136,11 +136,11 @@ fun SourceInputForm(
 
     LaunchedEffect(
         key1 = sourceUiDetail.name,
-        key2 = sourceUiDetail.currentBalance
+        key2 = sourceUiDetail.initialBalance
     ) {
         if (!enabled) {
             nameTxt.value = sourceUiDetail.name
-            initialBalance.value = sourceUiDetail.currentBalance
+            initialBalance.value = sourceUiDetail.initialBalance
         }
     }
 
@@ -168,7 +168,7 @@ fun SourceInputForm(
             value = initialBalance.value,
             onValueChange = {
                 initialBalance.value = it
-                onValueChange(sourceUiDetail.copy(currentBalance = initialBalance.value))
+                onValueChange(sourceUiDetail.copy(initialBalance = initialBalance.value))
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             label = { Text(text = stringResource(id = R.string.entry_source_screen_balance)) },

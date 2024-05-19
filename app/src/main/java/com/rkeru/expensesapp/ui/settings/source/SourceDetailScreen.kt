@@ -53,6 +53,7 @@ fun SourceDetailScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val sourceUiState = viewModel.sourceUiState.collectAsState()
+    val sourceUiList = viewModel.sourceUiList.collectAsState()
 
     Scaffold(
         topBar = {
@@ -65,6 +66,7 @@ fun SourceDetailScreen(
     ) { innerPadding ->
         SourceDetailBody(
             sourceUiState = sourceUiState.value,
+            isLastElement = sourceUiList.value.sourceList.size <= 1,
             onItemValueChange = viewModel::updateUiState,
             onSaveClick = {
                 coroutineScope.launch {
@@ -93,6 +95,7 @@ fun SourceDetailScreen(
 @Composable
 fun SourceDetailBody(
     sourceUiState: SourceUiState,
+    isLastElement: Boolean,
     onItemValueChange: (SourceUiDetail) -> Unit,
     onSaveClick: () -> Unit,
     onDeleteClick: () -> Unit,
@@ -117,7 +120,7 @@ fun SourceDetailBody(
             if (enableModify.value) {
                 Button(
                     onClick = { deleteConfirmationRequired = true },
-                    enabled = true,
+                    enabled = !isLastElement,
                     shape = MaterialTheme.shapes.small,
                     modifier = Modifier.weight(1f)
                 ) {
@@ -152,6 +155,9 @@ fun SourceDetailBody(
                     Text (text = stringResource(id = R.string.detail_source_screen_modify))
                 }
             }
+        }
+        if (enableModify.value and isLastElement) {
+            Text(text = stringResource(id = R.string.detail_source_screen_last_element))
         }
     }
 }

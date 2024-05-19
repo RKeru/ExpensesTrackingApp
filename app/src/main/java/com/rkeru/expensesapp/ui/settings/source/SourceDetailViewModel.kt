@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rkeru.expensesapp.data.repository.SourceRepo
+import com.rkeru.expensesapp.ui.transaction.SourceUiList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -28,6 +29,17 @@ class SourceDetailViewModel(
 
     private val sourceId: Int =
         checkNotNull(savedStateHandle[SourceDetailDestination.IDARG])
+
+    val sourceUiList: StateFlow<SourceUiList> =
+        sourceRepository.getAllSourcesStream()
+            .filterNotNull()
+            .map {
+                SourceUiList(it)
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLS),
+                initialValue = SourceUiList()
+            )
 
     val sourceUiState: StateFlow<SourceUiState> =
         sourceRepository.getSourceStream(sourceId)

@@ -17,7 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -82,7 +82,7 @@ fun ExpensesBottomNavigation(
     initialState: Int = 1,
     inverseColor: Boolean = true
 ) {
-    var selectedItem by remember { mutableStateOf(initialState) }
+    var selectedItem by remember { mutableIntStateOf(initialState) }
     val labels = listOf(
         stringResource(R.string.settings),
         stringResource(R.string.home),

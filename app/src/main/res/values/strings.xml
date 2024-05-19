@@ -62,6 +62,7 @@
     <string name="detail_category_screen_delete_question">Are you sure you want to delete? Every transaction associated with this category will be eliminated. Are you really sure?</string>
     <string name="detail_category_screen_yes">Yes</string>
     <string name="detail_category_screen_no">No</string>
+    <string name="detail_category_screen_last_element">You cannot delete this element! This is the last element of the Category List. The List must contain always at least 1 element!</string>
     <!-- Add Source Screen Strings -->
     <string name="entry_source_screen_title">Title</string>
     <string name="entry_source_screen_balance">Budget</string>
@@ -75,5 +76,6 @@
     <string name="detail_source_screen_delete_question">Are you sure you want to delete? Every transaction associated with this source will be eliminated. Are you really sure?</string>
     <string name="detail_source_screen_yes">Yes</string>
     <string name="detail_source_screen_no">No</string>
+    <string name="detail_source_screen_last_element">You cannot delete this element! This is the last element of the Source List. The List must contain always at least 1 element!</string>
 
 </resources>

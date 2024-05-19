@@ -8,5 +8,5 @@ data class Source(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
-    val currentBalance: Double
+    val initialBalance: Double
 )

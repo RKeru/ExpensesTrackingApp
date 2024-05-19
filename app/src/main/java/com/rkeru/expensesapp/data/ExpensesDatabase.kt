@@ -21,7 +21,7 @@ import com.rkeru.expensesapp.data.model.Transaction
         Transaction::class,
         ExpensesSummary::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(Converters::class)

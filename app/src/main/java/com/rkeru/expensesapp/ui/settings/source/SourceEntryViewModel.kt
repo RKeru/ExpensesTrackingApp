@@ -44,13 +44,13 @@ data class SourceUiState(
 data class SourceUiDetail(
     val id: Int = 0,
     val name: String = "",
-    val currentBalance: String = ""
+    val initialBalance: String = ""
 )
 
 fun SourceUiDetail.toSource() : Source = Source(
     id = id,
     name = name,
-    currentBalance = currentBalance.toDoubleOrNull() ?: 0.0
+    initialBalance = initialBalance.toDoubleOrNull() ?: 0.0
 )
 
 fun SourceUiDetail.toSourceUiState(
@@ -63,5 +63,5 @@ fun SourceUiDetail.toSourceUiState(
 fun Source.toSourceUiDetail() : SourceUiDetail = SourceUiDetail(
     id = id,
     name = name,
-    currentBalance = currentBalance.toString()
+    initialBalance = initialBalance.toString()
 )
